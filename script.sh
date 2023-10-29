@@ -284,10 +284,10 @@ fun_ip() {
     fi
 }
 function_verify() {
-    permited=$(curl -sSL "https://www.dropbox.com/s/nmau2w8vebewpq3/control")
+    permited=$(curl -sSL "https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/control")
     [[ $(echo $permited | grep "${IP}") = "" ]] && {
         clear
-        echo -e "\n\n\n\033[1;91m————————————————————————————————————————————————————\n      ¡ESTA KEY NO CONCUERDA CON EL INSTALADOR! \n      BOT: @CONECTEDMX_BOT \n————————————————————————————————————————————————————\n\n\n"
+        echo -e "\n\n\n\033[1;91m————————————————————————————————————————————————————\n      ¡ESTA KEY NO CONCUERDA CON EL INSTALADOR! \n      BOT: @CAT999K_BOT \n————————————————————————————————————————————————————\n\n\n"
         [[ -d /etc/VPS-MX ]] && rm -rf /etc/VPS-MX
         exit 1
     } || {
