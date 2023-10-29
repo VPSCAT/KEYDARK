@@ -217,7 +217,7 @@ descarga() {
     echo "menu menu_inst.sh message.txt new_vercion module vercion chekup.sh tool_extras.sh budp.sh cert.sh dns-server dropbear.sh filebrowser.sh openvpn.sh PDirect.py PGet.py POpen.py ports.sh PPriv.py PPub.py slowdns.sh sockspy.sh squid.sh ssl.sh swapfile.sh tcp.sh userHWID userSSH userTOKEN userV2ray.sh userWG.sh v2ray.sh wireguard.sh ws-cdn.sh WS-Proxy.js" >/etc/newadm-rufu
     echo "menu hora.sh sshdrop.sh proxy.sh rootpass.sh dados.sh sslh.sh message.txt numero.txt ports.sh ADMbot.sh PGet.py usercodes sockspy.sh POpen.py PPriv.py PPub.py PDirect.py speedtest.py speed.sh utils.sh dropbear.sh apacheon.sh openvpn.sh ssl.sh squid.sh fai2ban.sh gestor.sh paysnd.sh ultrahost v2ray.sh Unlock-Pass-VULTR.sh tcp.sh blockBT.sh squidpass.sh Crear-Demo.sh C-SSR.sh Shadowsocks-libev.sh Shadowsocks-R.sh panelweb.sh squidmx budp.sh" >/etc/newadm-cat
 
-    wget -O /etc/CAT-BOT/BotGen.sh https://www.dropbox.com/s/us09zxio5kawtu0/BotGen.sh &>/dev/null
+    wget -O /etc/CAT-BOT/BotGen.sh https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/BotGen.sh &>/dev/null
     chmod +x ${CIDdir}/BotGen.sh
     echo " DESCARGA FINALIZADA"
     read -p "enter"
@@ -466,7 +466,7 @@ bot_gen() {
         sleep 1
         echo -e " ACTUALIZANDO BOT KEYGEN"
         sleep 1
-        wget -O /etc/CAT-BOT/BotGen.sh https://www.dropbox.com/s/us09zxio5kawtu0/BotGen.sh &>/dev/null
+        wget -O /etc/CAT-BOT/BotGen.sh https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/BotGen.sh &>/dev/null
         chmod +x ${CIDdir}/BotGen.sh
         wget -O /bin/vpsbot https://www.dropbox.com/s/ewyd6xen3zg3k16/installbot.sh &>/dev/null && chmod +x /bin/vpsbot
         sleep 2
