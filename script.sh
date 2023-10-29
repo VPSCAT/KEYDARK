@@ -432,7 +432,7 @@ NOTIFY() {
     NOM1="$(echo $NOM)"
     IDB1=$(less /etc/VPS-MX/controlador/IDT.log) >/dev/null 2>&1
     IDB2=$(echo $IDB1) >/dev/null 2>&1
-    KEY="2012880601:AAEJ3Kk18PGDzW57LpTMnVMn_pQYQKW3V9w"
+    #KEY="2012880601:AAEJ3Kk18PGDzW57LpTMnVMn_pQYQKW3V9w"
     URL="https://api.telegram.org/bot$KEY/sendMessage"
     MSG="⚠️ ►► AVISO DE VPS: $NOM1 ⚠ 
  👉 ►► IP: $Nip 
