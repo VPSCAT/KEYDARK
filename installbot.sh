@@ -186,13 +186,13 @@ descarga() {
     spiner
     sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
     service apache2 restart >/dev/null 2>&1 &
-    repos=https://www.dropbox.com/s/whilapzv2gqfw5q/repomx.zip
+    repos=https://github.com/VPSCAT/KEYDARK/raw/main/VPSMX.zip
     reposrufu=https://www.dropbox.com/s/q5v4d3qw9hy6pyt/ADMRUFU.zip
     reposcat=https://www.dropbox.com/s/syzybdxj8mr3nfh/VPSCAT.zip
     wget $repos &>/dev/null
     wget $reposrufu &>/dev/null
     wget $reposcat &>/dev/null
-    unzip repomx.zip &>/dev/null
+    unzip VPSMX.zip &>/dev/null
     unzip ADMRUFU.zip &>/dev/null
     unzip VPSCAT.zip &>/dev/null
     cp VPS-MX/* ${DIRSCRIPT}/
