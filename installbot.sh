@@ -468,7 +468,7 @@ bot_gen() {
         sleep 1
         wget -O /etc/CAT-BOT/BotGen.sh https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/BotGen.sh &>/dev/null
         chmod +x ${CIDdir}/BotGen.sh
-        wget -O /bin/vpsbot https://www.dropbox.com/s/ewyd6xen3zg3k16/installbot.sh &>/dev/null && chmod +x /bin/vpsbot
+        wget -O /bin/vpsbot https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/installbot.sh &>/dev/null && chmod +x /bin/vpsbot
         sleep 2
         echo -e " BOT ACTUALIZADA CON ÉXITO"
         sleep 1
