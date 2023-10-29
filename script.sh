@@ -360,16 +360,16 @@ ofus() {
     for ((i = 1; i < $number + 1; i++)); do
         txt[$i]=$(echo "$1" | cut -b $i)
         case ${txt[$i]} in
-        ".") txt[$i]="F" ;;
-        "F") txt[$i]="." ;;
+        ".") txt[$i]="C" ;;
+        "C") txt[$i]="." ;;
         "3") txt[$i]="@" ;;
         "@") txt[$i]="3" ;;
         "5") txt[$i]="9" ;;
         "9") txt[$i]="5" ;;
         "6") txt[$i]="P" ;;
         "P") txt[$i]="6" ;;
-        "L") txt[$i]="R" ;;
-        "R") txt[$i]="L" ;;
+        "L") txt[$i]="O" ;;
+        "O") txt[$i]="L" ;;
         esac
         txtofus+="${txt[$i]}"
     done
