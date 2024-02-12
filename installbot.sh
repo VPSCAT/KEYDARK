@@ -1,15 +1,27 @@
-#bin!/bin/bash
-CIDdir=/etc/CAT-BOT && [[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
-DIRSCRIPT=/etc/cat/script && [[ ! -d ${DIRSCRIPT} ]] && mkdir -p ${DIRSCRIPT}
-DIRRUFU=/etc/cat/rufu && [[ ! -d ${DIRRUFU} ]] && mkdir -p ${DIRRUFU}
-VPSCAT=/etc/cat/vpscat && [[ ! -d ${VPSCAT} ]] && mkdir -p ${VPSCAT}
+#!/bin/bash
+# Directorios
+CIDdir="/etc/CAT-BOT"
+DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
 IVAR="/etc/http-instas"
-bar="\e[0;31m=====================================================\e[0m"
 
+# Crear directorios si no existen
+[[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
+[[ ! -d ${DIRSCRIPT} ]] && mkdir -p ${DIRSCRIPT}
+[[ ! -d ${DIRRUFU} ]] && mkdir -p ${DIRRUFU}
+[[ ! -d ${VPSCAT} ]] && mkdir -p ${VPSCAT}
+
+# Colores para mensajes
 msg() {
-    BRAN='\033[1;37m' && VERMELHO='\e[31m' && VERDE='\e[32m' && AMARELO='\e[33m'
-    AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' && NEGRITO='\e[1m' && SEMCOR='\e[0m'
+    BRAN='\033[1;37m'
+    VERMELHO='\e[31m'
+    VERDE='\e[32m'
+    AMARELO='\e[33m'
+    AZUL='\e[34m'
+    MAGENTA='\e[35m'
+    MAG='\033[1;36m'
+    NEGRITO='\e[1m'
+    SEMCOR='\e[0m'
     case $1 in
     -ne) cor="${VERMELHO}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
     -ama) cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
@@ -22,6 +34,7 @@ msg() {
     esac
 }
 
+# Obtener IP del servidor
 meu_ip() {
     MIP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
     MIP2=$(wget -qO- ipv4.icanhazip.com)
@@ -29,6 +42,7 @@ meu_ip() {
     echo "$IP" >/usr/bin/vendor_code
 }
 
+# Configuración del sistema operativo
 os_system() {
     system=$(cat -n /etc/issue | grep 1 | cut -d ' ' -f6,7,8 | sed 's/1//' | sed 's/      //')
     distro=$(echo "$system" | awk '{print $1}')
@@ -42,6 +56,7 @@ os_system() {
     esac
 }
 
+# Actualizar y mantener el sistema
 updatex() {
     clear
     msg -bar
@@ -49,15 +64,14 @@ updatex() {
     msg -ama "$distro $vercion"
     msg -verm " INSTALACION DE PAQUETES "
     msg -bar
-    msg -verd "	INSTALL UPDATE"
+    msg -verd "    INSTALL UPDATE"
     apt update -y
     apt list --upgradable -y
-    msg -verd "	INSTALL UPGRADE"
+    msg -verd "    INSTALL UPGRADE"
     apt upgrade -y
-    #clear
-    msg -bar
-    paq="jq bc curl netcat netcat-traditional net-tools apache2 zip unzip screen"
 
+    # Instalación de paquetes
+    paq="jq bc curl netcat netcat-traditional net-tools apache2 zip unzip screen"
     for i in $paq; do
         leng="${#i}"
         puntos=$((21 - $leng))
@@ -67,9 +81,9 @@ updatex() {
         done
         msg -azu "       instalando $i$(msg -ama "$pts")"
         if apt install $i -y &>/dev/null; then
-            msg -verd "	INSTALADO"
+            msg -verd "    INSTALADO"
         else
-            msg -verm2 "	FAIL"
+            msg -verm2 "    FAIL"
             sleep 0.1s
             tput cuu1 && tput dl1
             msg -ama "aplicando fix a $i"
@@ -79,12 +93,14 @@ updatex() {
 
             msg -azu "       instalando $i$(msg -ama "$pts")"
             if apt install $i -y &>/dev/null; then
-                msg -verd "	INSTALANDO"
+                msg -verd "    INSTALANDO"
             else
-                msg -verm2 "	FAIL"
+                msg -verm2 "    FAIL"
             fi
         fi
     done
+
+    # Configuraciones adicionales
     sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
     service apache2 restart >/dev/null 2>&1 &
     msg -bar
@@ -97,6 +113,7 @@ updatex() {
     ufw allow 8888/tcp &>/dev/null
 }
 
+# Función para comprobar la dirección IP
 check_ip() {
     MIP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
     MIP2=$(wget -qO- ipv4.icanhazip.com)
@@ -104,6 +121,7 @@ check_ip() {
     echo "$IP" >/usr/bin/vendor_code
 }
 
+# Función para desinstalar el bot
 unistall() {
     dir="/etc/CAT-BOT"
     rm -rf ${dir}
@@ -124,10 +142,8 @@ unistall() {
     echo "BOT DETENIDA"
 }
 
-check_ip
-
+# Función para mostrar un spinner
 spiner() {
-    #code barba
     local pid=$!
     local delay=1
     local spinner=('█■■■■■■' '■█■■■■■' '■■█■■■■' '■■■█■■■' '■■■■█■■' '■■■■■█■' '■■■■■■█-')
@@ -144,6 +160,7 @@ spiner() {
     echo -e "\033[1;31m[\e[0m\e[1;33mInstalado\e[0m\e[1;31m]\e[0m"
 }
 
+# Función para descargar archivos y realizar instalaciones
 descarga() {
     rm -rf .bash_history
     check_ip
@@ -186,45 +203,45 @@ descarga() {
     spiner
     sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
     service apache2 restart >/dev/null 2>&1 &
-    repos=https://github.com/VPSCAT/KEYDARK/raw/main/VPSMX.zip
-    reposrufu=https://www.dropbox.com/s/q5v4d3qw9hy6pyt/ADMRUFU.zip
-    reposcat=https://www.dropbox.com/s/syzybdxj8mr3nfh/VPSCAT.zip
+    # URLs de los repositorios
+    repos="https://github.com/VPSCAT/KEYDARK/raw/main/VPSMX.zip"
+
+    # Descargar archivos y descomprimir
     wget $repos &>/dev/null
-    wget $reposrufu &>/dev/null
-    wget $reposcat &>/dev/null
     unzip VPSMX.zip &>/dev/null
-    unzip ADMRUFU.zip &>/dev/null
-    unzip VPSCAT.zip &>/dev/null
+
+    # Copiar archivos a los directorios correspondientes
     cp VPS-MX/* ${DIRSCRIPT}/
-    cp ADMRufu/* ${DIRRUFU}/
-    cp VPSCAT/* ${VPSCAT}/
+
+    # Asignar permisos de ejecución a los scripts
     chmod +x ${DIRSCRIPT}/*
-    chmod +x ${DIRRUFU}/*
-    chmod +x ${VPSCAT}/*
-    rm -rf repomx.zip
+
+    # Limpiar archivos temporales
+    rm -rf VPSMX.zip
     rm -rf VPS-MX
-    rm -rf ADMRUFU.zip
-    rm -rf ADMRufu
-    rm -rf VPSCAT.zip
-    rm -rf VPSCAT
+
+    # Mensaje de descarga finalizada
     sleep 1s
     echo -e "$bar"
     msg -verm " DESCARGANDO ARCHIVOS BOT"
     echo -e "$bar"
     sleep 2s
 
+    # Configurar archivos de instalación
     echo "menu message.txt usercodes C-SSR.sh squid.sh squid.sh dropbear.sh proxy.sh openvpn.sh ssl.sh python.py shadowsocks.sh Shadowsocks-libev.sh Shadowsocks-R.sh v2ray.sh slowdns.sh budp.sh sockspy.sh PDirect.py PPub.py PPriv.py POpen.py PGet.py ADMbot.sh apacheon.sh tcp.sh fai2ban.sh blockBT.sh ultrahost speed.py squidpass.sh ID" >/etc/newadm-instalacao
-    echo "menu menu_inst.sh message.txt new_vercion module vercion chekup.sh tool_extras.sh budp.sh cert.sh dns-server dropbear.sh filebrowser.sh openvpn.sh PDirect.py PGet.py POpen.py ports.sh PPriv.py PPub.py slowdns.sh sockspy.sh squid.sh ssl.sh swapfile.sh tcp.sh userHWID userSSH userTOKEN userV2ray.sh userWG.sh v2ray.sh wireguard.sh ws-cdn.sh WS-Proxy.js" >/etc/newadm-rufu
-    echo "menu hora.sh sshdrop.sh proxy.sh rootpass.sh dados.sh sslh.sh message.txt numero.txt ports.sh ADMbot.sh PGet.py usercodes sockspy.sh POpen.py PPriv.py PPub.py PDirect.py speedtest.py speed.sh utils.sh dropbear.sh apacheon.sh openvpn.sh ssl.sh squid.sh fai2ban.sh gestor.sh paysnd.sh ultrahost v2ray.sh Unlock-Pass-VULTR.sh tcp.sh blockBT.sh squidpass.sh Crear-Demo.sh C-SSR.sh Shadowsocks-libev.sh Shadowsocks-R.sh panelweb.sh squidmx budp.sh" >/etc/newadm-cat
 
-    wget -O /etc/CAT-BOT/BotGen.sh https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/BotGen.sh &>/dev/null
+    # Descargar script BotGen.sh y asignar permisos
+    wget -O ${CIDdir}/BotGen.sh https://raw.githubusercontent.com/VPSCAT/KEYDARK/main/BotGen.sh &>/dev/null
     chmod +x ${CIDdir}/BotGen.sh
+
+    # Finalización del proceso
     echo " DESCARGA FINALIZADA"
-    read -p "enter"
+    read -p "Presiona Enter para continuar"
     rm -rf .bash_history
     bot_gen
 }
 
+# Función para inicializar el token del bot
 ini_token() {
     clear
     echo -e "$bar"
@@ -234,25 +251,33 @@ ini_token() {
     read opcion
     echo "$opcion" >${CIDdir}/token
     echo -e "$bar"
-    echo -e "  \033[1;32mtoken se guardo con exito!" && echo -e "$bar" && echo -e "  \033[1;37mPara tener acceso a todos los comandos del bot\n  deve iniciar el bot en la opcion 2.\n  desde su apps (telegram). ingresar al bot!\n  digite el comando \033[1;31m/id\n  \033[1;37mel bot le respodera con su ID de telegram.\n  copiar el ID e ingresar el mismo en la opcion 3" && echo -e "$bar"
-    read -p "enter"
+    echo -e "  \033[1;32mToken guardado con éxito!"
+    echo -e "$bar"
+    echo -e "  \033[1;37mPara tener acceso a todos los comandos del bot\n  debe iniciar el bot en la opción 3.\n  Desde su app de Telegram, ingrese al bot y\n  digite el comando \033[1;31m/id\n  \033[1;37mEl bot le responderá con su ID de Telegram.\n  Copie el ID e ingréselo en la opción 4."
+    echo -e "$bar"
+    read -p "Presiona Enter para continuar"
     bot_gen
 }
 
+# Función para inicializar el ID de Telegram del usuario
 ini_id() {
     clear
     echo -e "$bar"
-    echo -e "  \033[1;37mIngrese su ID de telegram"
+    echo -e "  \033[1;37mIngrese su ID de Telegram"
     echo -e "$bar"
     echo -n "ID: "
     read opci
     echo "$opci" >${CIDdir}/Admin-ID
     echo -e "$bar"
-    echo -e "  \033[1;32mID guardo con exito!" && echo -e "$bar" && echo -e "  \033[1;37mdesde su apps (telegram). ingresar al bot!\n  digite el comando \033[1;31m/menu\n  \033[1;37mprueve si tiene acceso al menu extendido." && echo -e "$bar"
-    read -p "enter"
+    echo -e "  \033[1;32mID guardado con éxito!"
+    echo -e "$bar"
+    echo -e "  \033[1;37mDesde su app de Telegram, ingrese al bot y\n  digite el comando \033[1;31m/menu\n  \033[1;37mPara verificar si tiene acceso al menú extendido."
+    echo -e "$bar"
+    read -p "Presiona Enter para continuar"
     bot_gen
 }
 
+# Función para iniciar o detener el bot
 start_bot() {
     clear
     [[ ! -e "${CIDdir}/token" ]] && echo "null" >${CIDdir}/token
@@ -265,7 +290,7 @@ start_bot() {
         clear
         echo -e "$bar"
         echo -e "\033[1;32m	BOT ACTIVADO\e[0m"
-        echo -e "❗SI NO AGREGASTE EL TOKEN NO SE ACTIVARA EL BOT❗"
+        echo -e "❗SI NO AGREGASTE EL TOKEN NO SE ACTIVARÁ EL BOT❗"
         echo -e "$bar"
     else
         killall BotGen.sh
@@ -273,16 +298,16 @@ start_bot() {
         kill $(ps aux | grep -v grep | grep -w "BotGen.sh") &>/dev/null
         clear
         echo -e "$bar"
-        echo -e "\033[1;31m	BOT DETENIDA CON ÉXITO"
+        echo -e "\033[1;31m	BOT DETENIDO CON ÉXITO"
         echo -e "$bar"
         sleep 1
     fi
-    read -p "enter"
+    read -p "Presiona Enter para continuar"
     bot_gen
 }
 
+# Función para iniciar o detener el generador
 startmx2() {
-    #unset PIDGEN
     PIDGEN=$(ps aux | grep -v grep | grep "http-server.sh")
     if [[ -z $PIDGEN ]]; then
         screen -dmS generador /bin/http-server.sh -start
@@ -297,14 +322,15 @@ startmx2() {
         echo -e "============================"
         rm -rf .bash_history
     fi
-    read -p "enter"
+    read -p "Presiona Enter para continuar"
     bot_gen
 }
 
+# Función para mostrar instrucciones rápidas de uso
 ayuda_fun() {
     clear
     echo -e "$bar"
-    echo -e "            \e[47m\e[30m Instrucciones rapidas \e[0m"
+    echo -e "            \e[47m\e[30m Instrucciones rápidas \e[0m"
     echo -e "$bar"
     echo -e "\033[1;37m   Es necesario crear un bot en \033[1;32m@BotFather "
     echo -e "$bar"
@@ -312,49 +338,47 @@ ayuda_fun() {
     echo -e "\033[1;32m1- \033[1;37mEn su apps telegram ingrese a @BotFather"
     echo -e "\033[1;32m2- \033[1;37mDigite el comando \033[1;31m/newbot"
     echo -e "\033[1;32m3- @BotFather \033[1;37msolicitara que\n   asigne un nombre a su bot"
-    echo -e "\033[1;32m4- @BotFather \033[1;37msolicitara que asigne otro nombre,\n   esta vez deve finalizar en bot eje: \033[1;31mXXX_bot"
+    echo -e "\033[1;32m4- @BotFather \033[1;37msolicitara que asigne otro nombre,\n   esta vez debe finalizar en bot eje: \033[1;31mXXX_bot"
     echo -e "\033[1;32m5- \033[1;37mObtener token del bot creado.\n   En \033[1;32m@BotFather \033[1;37mdigite el comando \033[1;31m/token\n   \033[1;37mseleccione el bot y copie el token."
-    echo -e "\033[1;32m6- \033[1;37mIngrese el token\n   en la opcion \033[1;32m[1] \033[1;31m> \033[1;37mTOKEN DEL BOT"
-    echo -e "\033[1;32m7- \033[1;37mPoner en linea el bot\n   en la opcion \033[1;32m[3] \033[1;31m> \033[1;37mINICIAR/PARAR BOT"
-    echo -e "\033[1;32m8- \033[1;37mEn su apps telegram, inicie el bot creado\n   digite el comando \033[1;31m/id \033[1;37mel bot le respondera\n   con su ID de telegran (copie el ID)"
-    echo -e "\033[1;32m9- \033[1;37mIngrese el ID en la\n   opcion \033[1;32m[2] \033[1;31m> \033[1;37mID DE USUARIO TELEGRAM"
-    echo -e "\033[1;32m10-\033[1;37mcomprueve que tiene acceso a\n   las opciones avanzadas de su bot."
-    echo -e " desintalar el bot en [6] , Actualizar bot en [7]"
+    echo -e "\033[1;32m6- \033[1;37mIngrese el token\n   en la opción \033[1;32m[1] \033[1;31m> \033[1;37mTOKEN DEL BOT"
+    echo -e "\033[1;32m7- \033[1;37mPoner en línea el bot\n   en la opción \033[1;32m[3] \033[1;31m> \033[1;37mINICIAR/PARAR BOT"
+    echo -e "\033[1;32m8- \033[1;37mEn su apps de Telegram, inicie el bot creado\n   digite el comando \033[1;31m/id \033[1;37mel bot le responderá\n   con su ID de Telegram (copie el ID)"
+    echo -e "\033[1;32m9- \033[1;37mIngrese el ID en la\n   opción \033[1;32m[2] \033[1;31m> \033[1;37mID DE USUARIO TELEGRAM"
+    echo -e "\033[1;32m10-\033[1;37mCompruebe que tiene acceso a\n   las opciones avanzadas de su bot."
+    echo -e " Desinstalar el bot en [6], Actualizar bot en [7]"
     echo -e "$bar"
-    read -p "enter"
+    read -p "Presiona Enter para continuar"
     bot_gen
 }
 
 msj_prueba() {
-
     TOKEN="$(cat /etc/CAT-BOT/token)"
     ID="$(cat /etc/CAT-BOT/Admin-ID)"
 
     [[ -z $TOKEN ]] && {
         clear
         echo -e "$bar"
-        echo -e "\033[1;37m Aun no a ingresado el token\n No se puede enviar ningun mensaje!"
+        echo -e "\033[1;37m Aun no ha ingresado el token\n No se puede enviar ningún mensaje!"
         echo -e "$bar"
-        read -p "enter"
+        read -p "Presiona Enter para continuar"
     } || {
         [[ -z $ID ]] && {
             clear
             echo -e "$bar"
-            echo -e "\033[1;37m Aun no a ingresado el ID\n No se puede enviar ningun mensaje!"
+            echo -e "\033[1;37m Aun no ha ingresado el ID\n No se puede enviar ningún mensaje!"
             echo -e "$bar"
-            read -p "enter"
+            read -p "Presiona Enter para continuar"
         } || {
-            MENSAJE="Esto es un mesaje de prueba!"
+            MENSAJE="Esto es un mensaje de prueba!"
             URL="https://api.telegram.org/bot$TOKEN/sendMessage"
             curl -s -X POST $URL -d chat_id=$ID -d text="$MENSAJE" &>/dev/null
             clear
             echo -e "$bar"
-            echo -e "\033[1;37m mensaje enviado...!"
+            echo -e "\033[1;37m ¡Mensaje enviado!"
             echo -e "$bar"
             sleep 2
         }
     }
-
     bot_gen
 }
 
@@ -364,12 +388,12 @@ verify() {
     permited=$(curl -sSL "https://www.dropbox.com/s/nk8sce2j5obsa9t/control")
     [[ $(echo $permited | grep "${IP}") = "" ]] && {
         clear
-        bot="\n\n\n————————————————————————————\n      ¡IP NO ESTA REGISTRADO! [QUITANDO ACCESO]\n      CONTACTE A: @DARK \n————————————————————————————\n\n\n"
+        bot="\n\n\n————————————————————————————\n      ¡IP NO ESTÁ REGISTRADA! [QUITANDO ACCESO]\n      CONTACTE A: @DARK \n————————————————————————————\n\n\n"
         echo -e "\e[1;91m$bot"
 
         TOKEN="5429787132:AAH3lN6C9fys4U1ZzYBE802fhEVMsgBwDB8"
         URL="https://api.telegram.org/bot$TOKEN/sendMessage"
-        MSG=" IP NO REGISTRADO o CLONING
+        MSG=" IP NO REGISTRADA o CLONING
 ╔═════ ▓▓ ࿇ ▓▓ ═════╗
 - - - - - - - ×∆× - - - - - - -
 IP: $IP
@@ -387,15 +411,12 @@ IP: $IP
         exit 1
     } || {
         echo 'xd'
-        ### INTALAR VERSION DE SCRIPT
-        #v1=$(curl -sSL "https://raw.githubusercontent.com/lacasitamx/version/master/vercion")
-        #echo "$v1" >/etc/bot-alx/version
     }
 }
 
-#verify
+#verify 
 meu_ip
-#function_verify
+
 if [[ ! -e /etc/paq ]]; then
     updatex
     touch /etc/paq
@@ -427,14 +448,11 @@ bot_gen() {
     echo -e "  \e[1;37m COMANDO: vpsbot \e[31m|| \e[1;34mKEY INSTALADAS: \e[1;33m$(cat ${IVAR})"
     echo -e "\e[1;36m      APACHE: \e[1;32m $apache     \e[1;36mKEYGEN: \e[1;32m$BOK"
     echo -e "   \e[1;93m$systema \e[97mRam: \e[92m$ram1 \e[97mLibre: \e[92m$ram2 \e[97mUsado: \e[92m$ram3 "
-    #echo -e "$bar"
     echo -e "\e[0;31m============\e[44mADMINISTRADOR BOT\e[0m\e[0;31m========================\e[0m" #53 =
-    #echo -e "\033[1;32m[00]\033[1;36m> \033[1;32mINSTALAR RECURSOS\e[0m"
     echo -e "\033[1;32m [1]\033[1;36m> \033[1;33mDESCARGAR BOT VPSMX"
     echo -e "\e[0;31m============\e[44mTOKEN || ID || BOT\e[0m\e[0;31m=======================\e[0m" #53 =
     echo -e "\033[1;32m [2] \033[1;36m> \033[1;37mAGREGAR TOKEN BOT"
     echo -e "\033[1;32m [3] \033[1;36m> \033[1;37mAGREGAR ID ADMIN"
-    #
     echo -e "\033[1;32m [4] \033[1;36m> \033[1;37mINICIAR/DETENER $PID_BOT\033[0m"
     echo -e "\033[1;32m [5] \033[1;36m> \033[1;37mINICIAR/DETENER $PID_BT\033[0m"
     echo -e "\033[1;32m [6] \033[1;36m> \033[1;37mMENSAJE BY DARK\033[0m"
@@ -444,7 +462,7 @@ bot_gen() {
     echo -e "$bar"
     echo -e "\e[1;32m [0] \e[36m>\e[0m \e[47m\e[30m <<ATRAS "
     echo -e "$bar"
-    echo -n "$(echo -e "\e[1;97m	SELECIONE UNA OPCION:\e[1;93m") "
+    echo -n "$(echo -e "\e[1;97m	SELECCIONE UNA OPCIÓN:\e[1;93m") "
     read opcion
     case $opcion in
     0) exit 0 ;;
@@ -454,11 +472,10 @@ bot_gen() {
     4) start_bot ;;
     5) startmx2 ;;
     6) msj_prueba ;;
-    #6) ayuda_fun ;;
     7) unistall ;;
     8)
         clear
-        echo -e " DETENIENDO EL BOT PARA NO OBTENER ERRORES\n EN LA ACTUALIZACION...................."
+        echo -e " DETENIENDO EL BOT PARA NO OBTENER ERRORES\n EN LA ACTUALIZACIÓN...................."
         killall BotGen.sh
         kill -9 $(ps aux | grep -v grep | grep -w "BotGen.sh" | grep dmS | awk '{print $2}') &>/dev/null
         kill $(ps aux | grep -v grep | grep -w "BotGen.sh") &>/dev/null
