@@ -1,5 +1,8 @@
 #!/bin/bash
 # Directorios
+export DEBIAN_FRONTEND=noninteractive
+apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+
 CIDdir="/etc/CAT-BOT"
 DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
@@ -8,8 +11,6 @@ IVAR="/etc/http-instas"
 # Crear directorios si no existen
 [[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
 [[ ! -d ${DIRSCRIPT} ]] && mkdir -p ${DIRSCRIPT}
-[[ ! -d ${DIRRUFU} ]] && mkdir -p ${DIRRUFU}
-[[ ! -d ${VPSCAT} ]] && mkdir -p ${VPSCAT}
 
 # Colores para mensajes
 msg() {
@@ -61,48 +62,38 @@ updatex() {
     clear
     msg -bar
     os_system
-    msg -ama "$distro $vercion"
+    msg -ama "$distro $version"
     msg -verm " INSTALACION DE PAQUETES "
     msg -bar
-    msg -verd "    INSTALL UPDATE"
+    msg -verd "    INSTALANDO ACTUALIZACIONES"
     apt update -y
-    apt list --upgradable -y
-    msg -verd "    INSTALL UPGRADE"
+    msg -verd "    PAQUETES ACTUALIZABLES"
+    apt list --upgradable
+    msg -verd "    ACTUALIZANDO PAQUETES"
     apt upgrade -y
 
     # Instalación de paquetes
-    paq="jq bc curl netcat netcat-traditional net-tools apache2 zip unzip screen"
-    for i in $paq; do
-        leng="${#i}"
-        puntos=$((21 - $leng))
-        pts="."
-        for ((a = 0; a < $puntos; a++)); do
-            pts+="."
-        done
-        msg -azu "       instalando $i$(msg -ama "$pts")"
-        if apt install $i -y &>/dev/null; then
-            msg -verd "    INSTALADO"
+    paquetes="jq bc curl netcat netcat-traditional net-tools apache2 zip unzip screen"
+    for paquete in $paquetes; do
+        msg -azu "       Instalando $paquete ..."
+        if apt install $paquete -y &>/dev/null; then
+            msg -verd "    Instalado correctamente"
         else
-            msg -verm2 "    FAIL"
-            sleep 0.1s
-            tput cuu1 && tput dl1
-            msg -ama "aplicando fix a $i"
+            msg -verm2 "    Falló la instalación"
+            msg -ama "Aplicando corrección para $paquete ..."
             dpkg --configure -a &>/dev/null
-            sleep 0.2s
-            tput cuu1 && tput dl1
-
-            msg -azu "       instalando $i$(msg -ama "$pts")"
-            if apt install $i -y &>/dev/null; then
-                msg -verd "    INSTALANDO"
+            msg -azu "       Instalando $paquete ..."
+            if apt install $paquete -y &>/dev/null; then
+                msg -verd "    Instalado correctamente"
             else
-                msg -verm2 "    FAIL"
+                msg -verm2 "    Falló la instalación"
             fi
         fi
     done
 
     # Configuraciones adicionales
-    sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
-    service apache2 restart >/dev/null 2>&1 &
+    sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
+    service apache2 restart >/dev/null 2>&1
     msg -bar
     msg -azu "Removiendo paquetes obsoletos"
     msg -bar
@@ -112,6 +103,7 @@ updatex() {
     ufw allow 81/tcp &>/dev/null
     ufw allow 8888/tcp &>/dev/null
 }
+
 
 # Función para comprobar la dirección IP
 check_ip() {
@@ -494,4 +486,5 @@ bot_gen() {
         ;;
     esac
 }
+
 bot_gen
