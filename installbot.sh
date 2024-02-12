@@ -54,7 +54,6 @@ os_system() {
     esac
 }
 
-# Actualizar y mantener el sistema
 updatex() {
     clear
     msg -bar
@@ -72,18 +71,22 @@ updatex() {
     # Instalación de paquetes
     paquetes="jq bc curl netcat netcat-traditional net-tools apache2 zip unzip screen"
     for paquete in $paquetes; do
-        msg -azu "       Instalando $paquete ..."
-        if apt install $paquete -y &>/dev/null; then
-            msg -verd "    Instalado correctamente"
+        msg -azu "       Verificando la instalación de $paquete ..."
+        if dpkg -l | grep -q $paquete; then
+            msg -verd "    El paquete $paquete ya está instalado."
         else
-            msg -verm2 "    Falló la instalación"
-            msg -ama "Aplicando corrección para $paquete ..."
-            dpkg --configure -a &>/dev/null
             msg -azu "       Instalando $paquete ..."
             if apt install $paquete -y &>/dev/null; then
                 msg -verd "    Instalado correctamente"
             else
-                msg -verm2 "    Falló la instalación"
+                msg -verm2 "    Falló la instalación de $paquete"
+                msg -ama "Aplicando corrección para $paquete ..."
+                dpkg --configure -a &>/dev/null
+                if apt install $paquete -y &>/dev/null; then
+                    msg -verd "    Instalado correctamente"
+                else
+                    msg -verm2 "    Falló la instalación de $paquete incluso después de la corrección"
+                fi
             fi
         fi
     done
