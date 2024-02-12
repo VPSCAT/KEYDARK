@@ -598,7 +598,7 @@ IP=$(ofus "$Key" | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o 
 sleep 1s
 
 # Verificar la función
-function_verify
+#function_verify
 
 # Actualizar la base de datos
 updatedb
