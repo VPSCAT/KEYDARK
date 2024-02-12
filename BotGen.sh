@@ -1,24 +1,16 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
-
 meu_ip_fun() {
     MIP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
     MIP2=$(wget -qO- ipv4.icanhazip.com)
     [[ "$MIP" != "$MIP2" ]] && IP="$MIP2" || IP="$MIP"
 }
-
 #check_ip
 #function_verify
 [[ -e /etc/newadm-instalacao ]] && BASICINST="$(cat /etc/newadm-instalacao)" || BASICINST="menu message.txt usercodes C-SSR.sh squid.sh squid.sh dropbear.sh proxy.sh openvpn.sh ssl.sh python.py shadowsocks.sh Shadowsocks-libev.sh Shadowsocks-R.sh v2ray.sh slowdns.sh budp.sh sockspy.sh PDirect.py PPub.py PPriv.py POpen.py PGet.py ADMbot.sh apacheon.sh tcp.sh fai2ban.sh blockBT.sh ultrahost speed.py squidpass.sh ID"
-[[ -e /etc/newadm-rufu ]] && BASICINSTRUFU="$(cat /etc/newadm-rufu)" || BASICINSTRUFU="menu menu_inst.sh message.txt new_vercion module vercion chekup.sh tool_extras.sh budp.sh cert.sh dns-server dropbear.sh filebrowser.sh openvpn.sh PDirect.py PGet.py POpen.py ports.sh PPriv.py PPub.py slowdns.sh sockspy.sh squid.sh ssl.sh swapfile.sh tcp.sh userHWID userSSH userTOKEN userV2ray.sh userWG.sh v2ray.sh wireguard.sh ws-cdn.sh WS-Proxy.js"
-[[ -e /etc/newadm-cat ]] && BASICINSTCAT="$(cat /etc/newadm-cat)" || BASICINSTCAT="menu hora.sh sshdrop.sh proxy.sh rootpass.sh dados.sh sslh.sh message.txt numero.txt ports.sh ADMbot.sh PGet.py usercodes sockspy.sh POpen.py PPriv.py PPub.py PDirect.py speedtest.py speed.sh utils.sh dropbear.sh apacheon.sh openvpn.sh ssl.sh squid.sh fai2ban.sh gestor.sh paysnd.sh ultrahost v2ray.sh Unlock-Pass-VULTR.sh tcp.sh blockBT.sh squidpass.sh Crear-Demo.sh C-SSR.sh Shadowsocks-libev.sh Shadowsocks-R.sh panelweb.sh squidmx budp.sh"
 SCPT_DIR="/etc/cat/script"
-DIRRUFU="/etc/cat/rufu"
-VPSCAT="/etc/cat/vpscat"
 #
-[[ ! -e ${DIRRUFU} ]] && mkdir ${DIRRUFU}
 [[ ! -e ${SCPT_DIR} ]] && mkdir ${SCPT_DIR}
-[[ ! -e ${VPSCAT} ]] && mkdir ${VPSCAT}
 mkdir /etc/bot/creditos
 DIR="/etc/http-shell"
 LIST="lista-arq"
@@ -89,95 +81,6 @@ gerar_key() {
     #bot_retorno+=" 👀 KEY INSTALADOS: [$k_used]\n"
     bot_retorno+="\n"
     bot_retorno+="📀Ubuntu: 18, 20.04 LTS ¡Recomendado\n"
-    msj_fun
-
-    #echo -e $bot_retorno >> ${keytxt}/key_${chatuser}.txt
-    #upfile_fun ${keytxt}/key_${chatuser}.txt
-    #rm ${keytxt}/key_${chatuser}.txt
-    #echo "@kevincat30" >${SCPT_DIR}/message.txt
-}
-
-gerar_key_rufu() {
-    meu_ip_fun
-    unset newresell
-    newresell="${USRdatabase2}/Mensaje_$chatuser.txt"
-    if [[ ! -e ${newresell} ]]; then
-        echo "@VPSDARK" >${DIRRUFU}/message.txt
-    else
-        echo "$(cat ${newresell})" >${DIRRUFU}/message.txt
-    fi
-
-    [[ ! $newresell ]] && credill="By $(cat ${USRdatabase2}/Mensaje_$chatuser.txt)" || credill="By $(cat ${DIRRUFU}/message.txt)"
-
-    valuekey="$(date | md5sum | head -c10)"
-    valuekey+="$(echo $(($RANDOM * 10)) | head -c 5)"
-    fun_list_rufu "$valuekey"
-    keyfinal=$(ofus_rufu "$IP:8888/$valuekey/$LISTRUFU")
-    local bot_retorno="═--🧑🏻‍💻 RUFU --═    \n"
-    bot_retorno+="\n"
-    bot_retorno+="👤 Reseller: $credill\n"
-    bot_retorno+="\n"
-    bot_retorno+="💾 Instalador:\n"
-    bot_retorno+="\n"
-    bot_retorno+="<code>apt update; apt upgrade -y; wget https://www.dropbox.com/s/p8kc6bv9ttjxtfh/install.sh; chmod 777 install.sh; ./install.sh</code>\n"
-    bot_retorno+="\n"
-    bot_retorno+="🔑 Key: (Valida por solo 30 min) \n"
-    bot_retorno+="\n"
-    bot_retorno+="<code>${keyfinal}</code>\n"
-    bot_retorno+="\n"
-    bot_retorno+=" 👀 KEY 𝑮𝑬𝑵𝑬𝑹𝑨𝑫𝑨:  [  $(ls /etc/http-shell/ | grep name | wc -l) ]\n"
-    #bot_retorno+=" 👀 KEY INSTALADOS: [$k_used]\n"
-    bot_retorno+="\n"
-    bot_retorno+="📀Ubuntu: 18, 20.04 LTS ¡Recomendado\n"
-    msj_fun
-
-    #echo -e $bot_retorno >> ${keytxt}/key_${chatuser}.txt
-    #upfile_fun ${keytxt}/key_${chatuser}.txt
-    #rm ${keytxt}/key_${chatuser}.txt
-    #echo "@kevincat30" >${DIRRUFU}/message.txt
-}
-
-gerar_key_cat() {
-    meu_ip_fun
-    unset newresell
-    newresell="${USRdatabase2}/Mensaje_$chatuser.txt"
-    if [[ ! -e ${newresell} ]]; then
-        echo "@VPSDARK" >${VPSCAT}/message.txt
-    else
-        echo "$(cat ${newresell})" >${VPSCAT}/message.txt
-    fi
-
-    [[ ! $newresell ]] && credill="By $(cat ${USRdatabase2}/Mensaje_$chatuser.txt)" || credill="By $(cat ${VPSCAT}/message.txt)"
-
-    valuekey="$(date | md5sum | head -c10)"
-    valuekey+="$(echo $(($RANDOM * 10)) | head -c 5)"
-    fun_list_cat "$valuekey"
-    keyfinal=$(ofus_vcat "$IP:8888/$valuekey/$LISTCAT")
-    local bot_retorno="═--🧑🏻‍💻 VPSCAT --═    \n"
-    bot_retorno+="\n"
-    bot_retorno+="👤 Reseller: $credill\n"
-    bot_retorno+="\n"
-    bot_retorno+="💾 Instalador:\n"
-    bot_retorno+="\n"
-    bot_retorno+="<code>apt update; apt upgrade -y; wget https://www.dropbox.com/s/0maa8wn6rvodon1/VPS-CAT; chmod 777 VPS-CAT; ./VPS-CAT</code>\n"
-    bot_retorno+="\n"
-    bot_retorno+="🔑 Key: (Valida por solo 30 min) \n"
-    bot_retorno+="\n"
-    bot_retorno+="<code>${keyfinal}</code>\n"
-    bot_retorno+="\n"
-    bot_retorno+=" 👀 KEY 𝑮𝑬𝑵𝑬𝑹𝑨𝑫𝑨:  [  $(ls /etc/http-shell/ | grep name | wc -l) ]\n"
-    #bot_retorno+=" 👀 KEY INSTALADOS: [$k_used]\n"
-    bot_retorno+="\n"
-    bot_retorno+="📀Ubuntu: 18, 20.04 LTS ¡Recomendado\n"
-    msj_fun
-}
-
-
-gerar_key_ch(){
-    local bot_retorno=""
-    bot_retorno+="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••\n"
-    bot_retorno+="AUN NO DISPONIBLE\n"
-    bot_retorno+="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••\n"
     msj_fun
 }
 
@@ -286,54 +189,6 @@ ofus() {
         case ${txt[$i]} in
         ".") txt[$i]="C" ;;
         "C") txt[$i]="." ;;
-        "3") txt[$i]="@" ;;
-        "@") txt[$i]="3" ;;
-        "5") txt[$i]="9" ;;
-        "9") txt[$i]="5" ;;
-        "6") txt[$i]="P" ;;
-        "P") txt[$i]="6" ;;
-        "L") txt[$i]="O" ;;
-        "O") txt[$i]="L" ;;
-        esac
-        txtofus+="${txt[$i]}"
-    done
-    echo "$txtofus" | rev
-}
-
-ofus_rufu() {
-    unset server
-    server=$(echo ${txt_ofuscatw} | cut -d':' -f1)
-    unset txtofus
-    number=$(expr length $1)
-    for ((i = 1; i < $number + 1; i++)); do
-        txt[$i]=$(echo "$1" | cut -b $i)
-        case ${txt[$i]} in
-        ".") txt[$i]="B" ;;
-        "B") txt[$i]="." ;;
-        "3") txt[$i]="@" ;;
-        "@") txt[$i]="3" ;;
-        "5") txt[$i]="9" ;;
-        "9") txt[$i]="5" ;;
-        "6") txt[$i]="P" ;;
-        "P") txt[$i]="6" ;;
-        "L") txt[$i]="R" ;;
-        "R") txt[$i]="L" ;;
-        esac
-        txtofus+="${txt[$i]}"
-    done
-    echo "$txtofus" | rev
-}
-
-ofus_vcat() {
-    unset server
-    server=$(echo ${txt_ofuscatw} | cut -d':' -f1)
-    unset txtofus
-    number=$(expr length $1)
-    for ((i = 1; i < $number + 1; i++)); do
-        txt[$i]=$(echo "$1" | cut -b $i)
-        case ${txt[$i]} in
-        ".") txt[$i]="Q" ;;
-        "Q") txt[$i]="." ;;
         "3") txt[$i]="@" ;;
         "@") txt[$i]="3" ;;
         "5") txt[$i]="9" ;;
@@ -774,6 +629,7 @@ menu_src() {
         bot_retorno+="🔰 BIENVENIDO AL BOT 🔰\n"
         bot_retorno+="▫️Panel de control | VPSMX 8.9▫️\n"
         bot_retorno+="Gen $PID_GEN | Keys Used [$k_used]\n"
+        bot_retorno+="KEY 𝑮𝑬𝑵𝑬𝑹𝑨𝑫𝑨:  [  $(ls /etc/http-shell/ | grep name | wc -l) ]\n"
         bot_retorno+="	RESELLER: $credi\n"
         bot_retorno+="$LINE\n"
         bot_retorno+="ADM: @${message_from_username[$id]}\n"
@@ -918,14 +774,6 @@ ShellBot.InlineKeyboardButton --button 'botao_conf' --line 2 --text '♻️AGREG
 ShellBot.InlineKeyboardButton --button 'botao_conf' --line 3 --text '🔑 KEYGEN' --callback_data '/keygen'
 ShellBot.InlineKeyboardButton --button 'botao_user' --line 1 --text '🔑 KEYGEN' --callback_data '/keygen'
 
-ShellBot.InlineKeyboardButton --button 'botao_conf' --line 3 --text '🔑 KEY-RUFU' --callback_data '/keygenr'
-ShellBot.InlineKeyboardButton --button 'botao_user' --line 1 --text '🔑 KEY-RUFU' --callback_data '/keygenr'
-
-ShellBot.InlineKeyboardButton --button 'botao_conf' --line 3 --text '🔑 KEY-VPSCAT' --callback_data '/keygencat'
-ShellBot.InlineKeyboardButton --button 'botao_user' --line 1 --text '🔑 KEY-VPSCAT' --callback_data '/keygencat'
-
-ShellBot.InlineKeyboardButton --button 'botao_conf' --line 4 --text '🔑 KEY-CHUMO' --callback_data '/keygench'
-ShellBot.InlineKeyboardButton --button 'botao_user' --line 2 --text '🔑 KEY-CHUMO' --callback_data '/keygench'
 ShellBot.InlineKeyboardButton --button 'botao_user' --line 3 --text '♻️AGREGAR RESELLER♻️' --callback_data '/rell'
 ShellBot.InlineKeyboardButton --button 'botao_user' --line 3 --text '🌴ADMI🌴' --callback_data '1' --url 't.me/kurumi_latin'
 
