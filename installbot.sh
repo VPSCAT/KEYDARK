@@ -1,8 +1,5 @@
 #!/bin/bash
 # Directorios
-export DEBIAN_FRONTEND=noninteractive
-apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-
 CIDdir="/etc/CAT-BOT"
 DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
