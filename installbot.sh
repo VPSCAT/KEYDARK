@@ -4,7 +4,7 @@ CIDdir="/etc/CAT-BOT"
 DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
 IVAR="/etc/http-instas"
-
+bar="\e[0;31m=====================================================\e[0m"
 # Crear directorios si no existen
 [[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
 [[ ! -d ${DIRSCRIPT} ]] && mkdir -p ${DIRSCRIPT}
@@ -128,6 +128,7 @@ unistall() {
     rm -rf /bin/http-server.sh
     #rm -rf /bin/ShellBot.sh
     rm -rf /bin/vpsbot
+    rm -rf /etc/paq
     rm -rf /etc/cat/script
     rm -rf .bash_history
     sleep 3s
