@@ -92,6 +92,7 @@ updatex() {
     done
 
     # Configuraciones adicionales
+    [[ ! -d ${IVAR} ]] && touch ${IVAR}
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
     service apache2 restart >/dev/null 2>&1
     msg -bar
@@ -454,7 +455,7 @@ bot_gen() {
     echo -e "$bar"
     echo -e "\e[1;32m [0] \e[36m>\e[0m \e[47m\e[30m <<ATRAS "
     echo -e "$bar"
-    echo -n "$(echo -e "\e[1;97m	SELECCIONE UNA OPCIÓN:\e[1;93m") "
+    echo -n "$(echo -e "\e[1;97m	SELECIONE UNA OPCION:\e[1;93m") "
     read opcion
     case $opcion in
     0) exit 0 ;;
