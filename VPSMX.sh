@@ -877,7 +877,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq | grep "Code de KEY In
 
     userid="${SCPdir}/ID"
 
-    TOKEN="6521500219:AAHOx9s2OJu-HPi_BcDu2QHeE2K8unpwv28"
+    TOKEN="6303106499:AAG6SPMRUSCgrS6cLnoh50Y_hysONv8tb0c"
 
     URL="https://api.telegram.org/bot$TOKEN/sendMessage"
 
