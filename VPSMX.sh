@@ -550,7 +550,7 @@ install_fim() {
 
     echo 'echo ""' >>.bashrc
 
-    echo 'figlet ":LACASITA:"|lolcat' >>.bashrc
+    echo 'figlet "*LATIN*"|lolcat' >>.bashrc
 
     echo 'mess1="$(less /etc/VPS-MX/message.txt)" ' >>.bashrc
 
