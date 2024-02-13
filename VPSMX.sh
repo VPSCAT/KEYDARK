@@ -472,13 +472,9 @@ funcao_idioma() {
 
     clear
 
-    clear
-
     msg -bar2
 
-    msg -bar2
-
-    figlet " LACASITA" | lolcat
+    figlet " LATIN" | lolcat
 
     echo -e "     ESTE SCRIPT ESTA OPTIMIZADO A IDIOMA ESPAÑOL"
 
