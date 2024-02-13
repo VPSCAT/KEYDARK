@@ -89,7 +89,7 @@ fun_bar() {
 }
 
 msg -bar2
-echo -e " \e[97m\033[1;41m   =====>>►►  SCRIPT MOD LACASITAMX  ◄◄<<=====      \033[1;37m"
+echo -e " \e[97m\033[1;41m   =====>>►►  SCRIPT MOD LACASITAMX  ◄◄<<=====      \033[1;37m\033[0m"
 msg -bar2
 msg -ama "               PREPARANDO INSTALACION"
 msg -bar2
