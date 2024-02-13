@@ -87,7 +87,7 @@ fun_bar() {
     echo -ne "  \033[1;33m[\033[1;31m>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\033[1;33m] - \033[1;32m OK \033[0m\n"
     sleep 1s
 }
-
+clear
 msg -bar2
 echo -e " \e[97m\033[1;41m   =====>>►►  SCRIPT MOD LACASITAMX  ◄◄<<=====      \033[1;37m\033[0m"
 msg -bar2
