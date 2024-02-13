@@ -10,10 +10,9 @@ if [ $(whoami) != 'root' ]; then
     exit
 fi
 
-
 # Función msg
 # Descripción: Esta función imprime mensajes en color en la terminal.
-# Parámetros: 
+# Parámetros:
 #   -ne: Imprime el mensaje en color rojo en negrita sin salto de línea.
 #   -ama: Imprime el mensaje en color amarillo en negrita con salto de línea.
 #   -verm: Imprime el mensaje en color rojo precedido por [!] en negrita con salto de línea.
@@ -28,13 +27,13 @@ msg() {
     AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' && NEGRITO='\e[1m' && SEMCOR='\e[0m'
 
     case $1 in
-        -ne) cor="${VERMELHO}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
-        -ama) cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
-        -verm) cor="${AMARELO}${NEGRITO}[!] ${VERMELHO}" && echo -e "${cor}${2}${SEMCOR}" ;;
-        -azu) cor="${MAG}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
-        -verd) cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
-        -bra) cor="${VERMELHO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
-        "-bar2" | "-bar") cor="${VERMELHO}————————————————————————————————————————————————————" && echo -e "${SEMCOR}${cor}${SEMCOR}" ;;
+    -ne) cor="${VERMELHO}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+    -ama) cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+    -verm) cor="${AMARELO}${NEGRITO}[!] ${VERMELHO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+    -azu) cor="${MAG}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+    -verd) cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+    -bra) cor="${VERMELHO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+    "-bar2" | "-bar") cor="${VERMELHO}————————————————————————————————————————————————————" && echo -e "${SEMCOR}${cor}${SEMCOR}" ;;
     esac
 }
 
@@ -45,8 +44,8 @@ os_system() {
 
     # Determina la versión de la distribución
     case $distro in
-        Debian) vercion=$(echo $system | awk '{print $3}' | cut -d '.' -f1) ;;
-        Ubuntu) vercion=$(echo $system | awk '{print $2}' | cut -d '.' -f1,2) ;;
+    Debian) vercion=$(echo $system | awk '{print $3}' | cut -d '.' -f1) ;;
+    Ubuntu) vercion=$(echo $system | awk '{print $2}' | cut -d '.' -f1,2) ;;
     esac
 
     # Construye el enlace para el archivo de configuración de repositorios
@@ -54,7 +53,7 @@ os_system() {
 
     # Descarga y configura el archivo de repositorios según la versión de la distribución
     case $vercion in
-        8 | 9 | 10 | 11 | 16.04 | 18.04 | 20.04 | 20.10 | 21.04 | 21.10 | 22.04) wget -O /etc/apt/sources.list ${link} &>/dev/null ;;
+    8 | 9 | 10 | 11 | 16.04 | 18.04 | 20.04 | 20.10 | 21.04 | 21.10 | 22.04) wget -O /etc/apt/sources.list ${link} &>/dev/null ;;
     esac
 }
 fun_bar() {
@@ -62,7 +61,8 @@ fun_bar() {
     comando="$1"
 
     # Ejecuta el comando en segundo plano y redirige la salida estándar y de error a /dev/null
-    _=$($comando >/dev/null 2>&1) & >/dev/null
+    _=$($comando >/dev/null 2>&1) &
+    >/dev/null
 
     # Obtiene el ID del proceso del comando en segundo plano
     pid=$!
@@ -101,10 +101,10 @@ INSTALL_DIR=${INSTALL_DIR_PARENT}
 if [ ! -d "$INSTALL_DIR" ]; then
     # Crea el directorio de instalación y sus directorios padres, si no existen
     mkdir -p "$INSTALL_DIR_PARENT"
-    
+
     # Cambia al directorio principal de instalación
     cd "$INSTALL_DIR_PARENT"
-    
+
     # Descarga un archivo de configuración desde un repositorio remoto y lo guarda en /usr/local/vpsmxup/vpsmxup.default.conf
     wget https://raw.githubusercontent.com/lacasitamx/VPSMX/master/zzupdate/zzupdate.default.conf -O /usr/local/vpsmxup/vpsmxup.default.conf &>/dev/null
 else
@@ -469,27 +469,14 @@ function_verify() {
 }
 
 funcao_idioma() {
-
     clear
-
-    clear
-
     msg -bar2
-
-    msg -bar2
-
-    figlet " LACASITA" | lolcat
-
+    figlet " LATIN" | lolcat
     echo -e "     ESTE SCRIPT ESTA OPTIMIZADO A IDIOMA ESPAÑOL"
-
     msg -bar2
-
     pv="$(echo es)"
-
     [[ ${#id} -gt 2 ]] && id="es" || id="$pv"
-
     byinst="true"
-
 }
 
 install_fim() {
@@ -878,9 +865,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq | grep "Code de KEY In
     userid="${SCPdir}/ID"
 
     TOKEN="6303106499:AAG6SPMRUSCgrS6cLnoh50Y_hysONv8tb0c"
-
     URL="https://api.telegram.org/bot$TOKEN/sendMessage"
-
     MSG="👇= KEY INSTALADO =👇 
 
  ╔═════ ▓▓ ࿇ ▓▓ ═════╗ 
@@ -903,19 +888,19 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq | grep "Code de KEY In
 
  - - - - - - - ×∆× - - - - - - - 
 
- By @alexmod80 
+ By @CAT 
 
  - - - - - - - ×∆× - - - - - - - 
 
  ╚═════ ▓▓ ࿇ ▓▓ ═════╝ 
+"
 
- "
-
+    # Obtener el ID de usuario
     activ=$(cat ${userid})
 
+    # Enviar mensaje a través de la API de Telegram
     curl -s --max-time 10 -d "chat_id=$activ&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
-
-    curl -s --max-time 10 -d "chat_id=605531451&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
+    #curl -s --max-time 10 -d "chat_id=605531451&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
 
     rm ${SCPdir}/IP.log &>/dev/null
 
@@ -957,8 +942,8 @@ else
 
     invalid_key
 
-    rm -rf LACASITA.sh lista-arq
+    rm -rf VPSMX.sh lista-arq
 
 fi
 
-rm -rf LACASITA.sh lista-arq
+rm -rf VPSMX.sh lista-arq
