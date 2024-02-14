@@ -4,7 +4,6 @@ CIDdir="/etc/CAT-BOT"
 DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
 IVAR="/etc/http-instas"
-bar="\e[0;31m=====================================================\e[0m"
 
 # Crear directorios si no existen
 [[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
@@ -423,8 +422,8 @@ bot_gen() {
     unset PID_BOT
     KEYI=$(ps x | grep -v grep | grep "nc.traditional")
     [[ ! $KEYI ]] && BOK="\033[1;31m [ ✖ OFF ✖ ]    " || BOK="\033[1;32m [ ACTIVO ]"
-    #apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)" || apachep="$(grep '80' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"
-    if ! apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"; then echo -e "\033[1;31m [ ✖ OFF ✖ ]"; fi
+    apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"
+    [[ ! $apache ]] && APACHE81="\033[1;31m [ ✖ OFF ✖ ]    " || APACHE81="\033[1;32m [ ACTIVO ]"
     PID_BOT=$(ps x | grep -v grep | grep "BotGen.sh")
     [[ ! $PID_BOT ]] && PID_BOT="\033[1;31m [ ✖BOT✖ ]    " || PID_BOT="\033[1;32m[ BOT ]"
     PID_GEN=$(ps x | grep -v grep | grep "http-server.sh")
@@ -440,7 +439,7 @@ bot_gen() {
     echo -e "$bar"
     echo -e "	\e[1;36m༆ \e[1;33m  SCRIPT-BOT  \e[1;36m༆  \e[0m"
     echo -e "  \e[1;37m COMANDO: vpsbot \e[31m|| \e[1;34mKEY INSTALADAS: \e[1;33m$(cat ${IVAR})"
-    echo -e "\e[1;36m      APACHE: \e[1;32m $apache     \e[1;36mKEYGEN: \e[1;32m$BOK"
+    echo -e "\e[1;36m      APACHE: \e[1;32m $APACHE81     \e[1;36mKEYGEN: \e[1;32m$BOK"
     echo -e "   \e[1;93m$systema \e[97mRam: \e[92m$ram1 \e[97mLibre: \e[92m$ram2 \e[97mUsado: \e[92m$ram3 "
     echo -e "\e[0;31m============\e[44mADMINISTRADOR BOT\e[0m\e[0;31m========================\e[0m" #53 =
     echo -e "\033[1;32m [1]\033[1;36m> \033[1;33mDESCARGAR BOT VPSMX"
