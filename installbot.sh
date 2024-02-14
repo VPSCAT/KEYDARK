@@ -93,7 +93,7 @@ updatex() {
 
     # Configuraciones adicionales
     [[ ! -d ${IVAR} ]] && touch ${IVAR}
-    sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
+    #sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
     service apache2 restart >/dev/null 2>&1
     msg -bar
     msg -azu "Removiendo paquetes obsoletos"
@@ -423,7 +423,7 @@ bot_gen() {
     KEYI=$(ps x | grep -v grep | grep "nc.traditional")
     [[ ! $KEYI ]] && BOK="\033[1;31m [ ✖ OFF ✖ ]    " || BOK="\033[1;32m [ ACTIVO ]"
     apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"
-    [[ ! $apache ]] && APACHE81="\033[1;31m [ ✖ OFF ✖ ]    " || APACHE81="\033[1;32m [ ACTIVO ]"
+    [[ ! $apache ]] && APACHE81="\033[1;31m [ ✖ OFF ✖ ]" || APACHE81="\033[1;32m [ ACTIVO ]"
     PID_BOT=$(ps x | grep -v grep | grep "BotGen.sh")
     [[ ! $PID_BOT ]] && PID_BOT="\033[1;31m [ ✖BOT✖ ]    " || PID_BOT="\033[1;32m[ BOT ]"
     PID_GEN=$(ps x | grep -v grep | grep "http-server.sh")
