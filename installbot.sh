@@ -4,6 +4,7 @@ CIDdir="/etc/CAT-BOT"
 DIRSCRIPT="/etc/cat/script"
 DIR="/etc/http-shell"
 IVAR="/etc/http-instas"
+
 bar="\e[0;31m=====================================================\e[0m"
 # Crear directorios si no existen
 [[ ! -d ${CIDdir} ]] && mkdir ${CIDdir}
