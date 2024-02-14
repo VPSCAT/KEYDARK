@@ -422,12 +422,13 @@ bot_gen() {
     unset PID_BOT
     KEYI=$(ps x | grep -v grep | grep "nc.traditional")
     [[ ! $KEYI ]] && BOK="\033[1;31m [ ✖ OFF ✖ ]    " || BOK="\033[1;32m [ ACTIVO ]"
-    apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"
-    [[ ! $apache ]] && APACHE81="\033[1;31m [ ✖ OFF ✖ ]" || APACHE81="\033[1;32m [ ACTIVO ]"
+    #apache="$(grep '81' /etc/apache2/ports.conf | cut -d' ' -f2 | grep -v 'apache2' | xargs)"
+    APACHE_PID=$(grep 'Listen 81' /etc/apache2/ports.conf | cut -d' ' -f2 | xargs ps x | grep -v grep)
+    [[ ! $APACHE_PID ]] && APACHE81="\033[1;31m [ ✖ OFF ✖ ]" || APACHE81="\033[1;32m [ ACTIVO ]"
     PID_BOT=$(ps x | grep -v grep | grep "BotGen.sh")
-    [[ ! $PID_BOT ]] && PID_BOT="\033[1;31m [ ✖BOT✖ ]    " || PID_BOT="\033[1;32m[ BOT ]"
+    [[ ! $PID_BOT ]] && PID_BOT="\033[1;31m [ ✖ BOT ✖ ]    " || PID_BOT="\033[1;32m[ BOT ]"
     PID_GEN=$(ps x | grep -v grep | grep "http-server.sh")
-    [[ -z $PID_GEN ]] && PID_BT="\033[1;31m [ ✖GEN✖ ]    " || PID_BT="\033[1;32m[ GEN ]"
+    [[ -z $PID_GEN ]] && PID_BT="\033[1;31m [ ✖ GEN ✖ ]    " || PID_BT="\033[1;32m[ GEN ]"
 
     [[ ! -e /etc/bot-alx/system ]] && systema="DARK.MOD" || systema=$(cat /etc/bot-alx/system)
     unset ram1
