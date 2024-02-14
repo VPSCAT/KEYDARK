@@ -94,7 +94,7 @@ updatex() {
     # Configuraciones adicionales
     [[ ! -d ${IVAR} ]] && touch ${IVAR}
     #sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
-    service apache2 restart >/dev/null 2>&1
+    #service apache2 restart >/dev/null 2>&1
     msg -bar
     msg -azu "Removiendo paquetes obsoletos"
     msg -bar
